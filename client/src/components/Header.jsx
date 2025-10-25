@@ -1,55 +1,82 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { useState, useEffect } from 'react'
-import { getIncomingRequests } from '../services/requestService'
 import './Header.css'
 
 const Header = () => {
   const { user, logout } = useAuth()
-  const [notificationCount, setNotificationCount] = useState(0)
+  const navigate = useNavigate()
 
-  useEffect(() => {
-    if (user?.role === 'donor') {
-      loadNotifications()
-      // Refresh every 30 seconds
-      const interval = setInterval(loadNotifications, 30000)
-      return () => clearInterval(interval)
-    }
-  }, [user])
-
-  const loadNotifications = async () => {
-    try {
-      const requests = await getIncomingRequests()
-      const pendingCount = requests.filter(r => r.status === 'pending').length
-      setNotificationCount(pendingCount)
-    } catch (error) {
-      console.error('Error loading notifications:', error)
-    }
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
   }
 
   return (
     <header className="header">
       <div className="container">
         <div className="header-content">
+          {/* Logo */}
           <Link to="/" className="logo">
-            <h1>🍽️ Food Sharing</h1>
+            <span className="logo-icon">🍽️</span>
+            <span className="logo-text">FoodShare</span>
           </Link>
-          
+
+          {/* Navigation */}
           <nav className="nav">
-            {!user ? (
+            {user ? (
               <>
-                <Link to="/login" className="btn btn-secondary">Login</Link>
-                <Link to="/register" className="btn btn-primary">Sign Up</Link>
+                <Link 
+                  to={user.role === 'donor' ? '/donor/dashboard' : '/receiver/dashboard'} 
+                  className="nav-link"
+                >
+                  Dashboard
+                </Link>
+                
+                <div className="user-menu">
+                  <button className="user-button">
+                    <div className="user-avatar">
+                      {user.firstName?.charAt(0) || user.organizationName?.charAt(0) || 'U'}
+                    </div>
+                    <span className="user-name">
+                      {user.businessName || user.organizationName || user.firstName}
+                    </span>
+                  </button>
+                  
+                  <div className="dropdown-menu">
+                    <div className="dropdown-header">
+                      <div className="dropdown-user-info">
+                        <div className="dropdown-name">
+                          {user.businessName || user.organizationName || `${user.firstName} ${user.lastName}`}
+                        </div>
+                        <div className="dropdown-email">{user.email}</div>
+                        <div className="dropdown-role">
+                          {user.role === 'donor' ? '👨‍🍳 Donor' : '🙏 Receiver'}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="dropdown-divider"></div>
+                    
+                    <Link to="/profile" className="dropdown-item">
+                      <span className="dropdown-icon">👤</span>
+                      Profile Settings
+                    </Link>
+                    
+                    <button onClick={handleLogout} className="dropdown-item">
+                      <span className="dropdown-icon">🚪</span>
+                      Sign Out
+                    </button>
+                  </div>
+                </div>
               </>
             ) : (
               <>
-                <span className="user-name">Hello, {user.firstName}!</span>
-                {user.role === 'donor' && notificationCount > 0 && (
-                  <Link to="/donor/dashboard" className="notification-badge">
-                    📬 {notificationCount} new request{notificationCount > 1 ? 's' : ''}
-                  </Link>
-                )}
-                <button onClick={logout} className="btn btn-secondary">Logout</button>
+                <Link to="/login" className="nav-link">
+                  Sign In
+                </Link>
+                <Link to="/register" className="btn btn-primary btn-sm">
+                  Get Started
+                </Link>
               </>
             )}
           </nav>

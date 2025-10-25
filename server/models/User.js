@@ -34,49 +34,60 @@ const userSchema = new mongoose.Schema({
     enum: ['male', 'female', 'other', 'prefer_not_to_say'],
     required: true
   },
+
+  // -------- ROLES & MODERATION --------
   role: {
     type: String,
-    enum: ['donor', 'receiver'],
+    enum: ['donor', 'receiver', 'ngo_volunteer', 'admin'],
     required: true
   },
-  // Donor-specific fields (OPTIONAL - no validation on empty strings)
+  suspended: { type: Boolean, default: false },
+  suspension: {
+    reason: String,
+    until: Date
+  },
+
+  // -------- DONOR-SPECIFIC --------
   donorType: {
     type: String,
-    enum: {
-      values: ['individual', 'small_business'],
-      message: '{VALUE} is not a valid donor type'
-    }
+    enum: ['individual', 'small_business'],
+    default: undefined
   },
   businessType: {
     type: String,
-    enum: {
-      values: ['restaurant', 'hotel', 'catering', 'function_hall'],
-      message: '{VALUE} is not a valid business type'
-    }
+    enum: ['restaurant', 'hotel', 'catering', 'function_hall'],
+    default: undefined
   },
   businessName: {
     type: String,
     trim: true
   },
-  // Receiver-specific fields (OPTIONAL - no validation on empty strings)
+
+  // -------- RECEIVER-SPECIFIC --------
   receiverType: {
     type: String,
-    enum: {
-      values: ['individual', 'group'],
-      message: '{VALUE} is not a valid receiver type'
-    }
+    enum: ['individual', 'group'],
+    default: undefined
   },
   organizationType: {
     type: String,
-    enum: {
-      values: ['charity', 'orphanage', 'trust', 'other_ngo'],
-      message: '{VALUE} is not a valid organization type'
-    }
+    enum: ['charity', 'orphanage', 'trust', 'other_ngo'],
+    default: undefined
   },
   organizationName: {
     type: String,
     trim: true
   },
+
+  // -------- VOLUNTEER (NGO) --------
+  ngoDetails: {
+    ngoName: String,
+    volunteerId: String,    // Optional, unique per org
+    areaAssigned: String,
+    isActive: { type: Boolean, default: true }
+  },
+
+  // -------- COMMON GEOLOCATION --------
   location: {
     type: {
       type: String,
@@ -89,6 +100,8 @@ const userSchema = new mongoose.Schema({
     },
     address: String
   },
+
+  // -------- METRICS --------
   averageRating: {
     type: Number,
     default: 0
@@ -105,32 +118,26 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Create geospatial index
 userSchema.index({ location: '2dsphere' });
 
 // Hash password before saving
 userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) {
-    return next();
-  }
+  if (!this.isModified('password')) return next();
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
   next();
 });
 
-// Match password
 userSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-// Get display name
 userSchema.methods.getDisplayName = function() {
-  if (this.role === 'donor' && this.businessName) {
-    return this.businessName;
-  }
-  if (this.role === 'receiver' && this.organizationName) {
-    return this.organizationName;
-  }
+  if (this.role === 'donor' && this.businessName) return this.businessName;
+  if (this.role === 'receiver' && this.organizationName) return this.organizationName;
+  if (this.role === 'ngo_volunteer' && this.ngoDetails?.ngoName)
+    return `${this.ngoDetails.ngoName} Volunteer`;
+  if (this.role === 'admin') return 'Admin';
   return `${this.firstName} ${this.lastName}`;
 };
 

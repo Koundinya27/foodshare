@@ -46,6 +46,7 @@ app.use('/api/donations', donationRoutes);
 app.use('/api/requests', requestRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/reports', require('./routes/reportRoutes'));
+app.use('/api/admin', require('./routes/adminRoutes'))
 
 
 // Error handler

@@ -1,0 +1,121 @@
+.admin-dashboard {
+  min-height: 100vh;
+  background: #f7fafd;
+  padding-bottom: 40px;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 12px;
+  background: #fff;
+  border-bottom: 1px solid #e0e4e8;
+  padding: 12px 20px 0 20px;
+  margin-bottom: 18px;
+}
+
+.admin-tab {
+  padding: 10px 22px;
+  font-size: 15px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  background: #eaf5fd;
+  color: #2979ff;
+  font-weight: 600;
+  transition: all 0.18s;
+  outline: none;
+}
+
+.admin-tab:hover,
+.admin-tab.active {
+  background: #2979ff;
+  color: #fff;
+}
+
+.admin-tab-content {
+  padding: 18px 24px 0 24px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  margin: 0 auto 24px auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(41,121,255,0.05);
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 14px 14px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
+}
+
+.admin-table th {
+  background: #f3f7fa;
+  font-weight: 700;
+  color: #2979ff;
+  border-bottom: 2.5px solid #2979ff13;
+}
+
+.admin-table tr:last-of-type td {
+  border-bottom: none;
+}
+
+/* Buttons inside tables */
+.admin-table button {
+  appearance: none;
+  outline: none;
+  background: #2979ff;
+  color: #fff;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-right: 6px;
+  margin-bottom: 3px;
+  font-weight: 600;
+  transition: background 0.19s;
+}
+
+.admin-table button:hover {
+  background: #1853be;
+}
+
+/* Volunteer status styles */
+.admin-table td,
+.admin-table th {
+  vertical-align: middle;
+}
+
+.admin-loading {
+  text-align: center;
+  color: #2979ff;
+  font-weight: 500;
+  font-size: 20px;
+  padding: 30px;
+}
+
+/* Map styling */
+.leaflet-container {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(41,121,255,0.12);
+  border: 1px solid #dde8f5;
+  margin: 0 0 20px 0;
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+  .admin-tab-content { padding: 7px 0; }
+}
+
+@media (max-width: 550px) {
+  .admin-table th, .admin-table td { padding: 7px 6px; }
+  .admin-tabs { flex-wrap: wrap; gap: 4px;}
+  .admin-tab { padding: 7px 13px; font-size: 13px;}
+}
