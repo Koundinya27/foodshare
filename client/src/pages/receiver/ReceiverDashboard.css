@@ -1,0 +1,148 @@
+/* Tabs */
+.dashboard-tabs {
+  background: white;
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 64px;
+  z-index: 50;
+}
+
+.dashboard-tabs .container {
+  display: flex;
+  gap: 0;
+}
+
+.tab {
+  flex: 1;
+  padding: 16px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-text-light);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.tab:hover {
+  color: var(--color-primary);
+  background-color: rgba(32, 128, 141, 0.05);
+}
+
+.tab.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+  background-color: rgba(32, 128, 141, 0.05);
+}
+
+/* Requests Section */
+.requests-section {
+  padding: 20px 0;
+}
+
+.requests-section h2 {
+  margin-bottom: 24px;
+  color: var(--color-text);
+}
+
+.requests-list {
+  display: grid;
+  gap: 20px;
+}
+
+.request-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+
+.request-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.request-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.request-header h3 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  color: var(--color-text);
+}
+
+.donor-name {
+  font-size: 14px;
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+.request-body {
+  padding: 20px;
+}
+
+.request-note {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(32, 128, 141, 0.05);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+}
+
+.decline-reason {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(192, 21, 47, 0.05);
+  border-left: 3px solid var(--color-error);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--color-error);
+}
+
+/* Status Badges */
+.badge-pending {
+  background-color: rgba(255, 193, 7, 0.2);
+  color: #f57c00;
+}
+
+.badge-confirmed {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #388e3c;
+}
+
+.badge-declined {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #d32f2f;
+}
+
+.badge-completed {
+  background-color: rgba(33, 150, 243, 0.2);
+  color: #1976d2;
+}
+
+.badge-cancelled {
+  background-color: rgba(158, 158, 158, 0.2);
+  color: #616161;
+}
+.reviewed-indicator {
+  padding: 12px 20px;
+  background: rgba(76, 175, 80, 0.1);
+  border-top: 1px solid var(--color-border);
+  color: #388e3c;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.request-actions {
+  padding: 16px 20px;
+  background-color: rgba(32, 128, 141, 0.03);
+  border-top: 1px solid var(--color-border);
+}

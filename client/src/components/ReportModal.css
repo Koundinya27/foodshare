@@ -1,0 +1,32 @@
+.report-modal {
+  max-width: 600px;
+}
+
+.report-info {
+  background: rgba(255, 193, 7, 0.1);
+  padding: 12px;
+  border-left: 3px solid #ffc107;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.warning-box {
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  color: #d32f2f;
+  font-size: 14px;
+  margin: 16px 0;
+  text-align: center;
+}
+
+.btn-danger {
+  background: #d32f2f;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #b71c1c;
+}
